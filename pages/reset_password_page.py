@@ -6,13 +6,15 @@ from locators.reset_password_page import *
 from pages.base_page import BasePage
 import urls
 
+
+
+
 class ResetPasswordPage(BasePage):
     def open(self):
-        self.open_page(urls.RESET_PASSWORD_PAGE)
+        self._open_page(urls.RESET_PASSWORD_PAGE)
 
     def click_on_show_password_button(self):
-        element = self.driver.find_element(*SHOW_PASSWORD_BUTTON)
-        self.driver.execute_script("arguments[0].click();", element)
+        self._click_locator(SHOW_PASSWORD_BUTTON)
         WebDriverWait(self.driver, 3).until(expected_conditions.presence_of_element_located(FIELD_PASSWORD_ACTIVE))
 
     def is_field_password_active(self):

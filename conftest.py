@@ -1,21 +1,58 @@
 import pytest
-
+from faker import Faker
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
+import requests
+
+import urls
+import locators.login_page
+import api
 
 
+def setup_driver(browser):
+    if browser == 'chrome':
+        return webdriver.Chrome()
+    elif browser == 'firefox':
+        return webdriver.Firefox()
 
-@pytest.fixture(params=['chrome', 'firefox'])
+#@pytest.fixture(params=['chrome', 'firefox'])
+@pytest.fixture(params=['chrome'])
 def page_driver(request):
-    driver = None
-    if request.param == 'chrome':
-        browser_options = webdriver.ChromeOptions()
-        browser_options.add_argument('--headless')
-        driver = webdriver.Chrome(options=browser_options)
-    elif request.param == 'firefox':
-        browser_options = webdriver.FirefoxOptions()
-        browser_options.add_argument('--headless')
-        driver = webdriver.Firefox(options=browser_options)
+    driver = setup_driver(request.param)
     yield driver
+    driver.quit()
+
+
+def register_user(user_data):
+    user_response = requests.post(f"{api.MAIN_URL}{api.CREATE_USER}", json=user_data)
+    return user_response.json().get("accessToken")
+
+
+#@pytest.fixture(params=['chrome', 'firefox'])
+@pytest.fixture(params=['chrome'])
+def logged_in_main_page_driver(request):
+    faker = Faker()
+    user_data = {
+        "email": faker.email(),
+        "password": faker.password(),
+        "name": faker.name()
+    }
+    access_token = register_user(user_data)
+
+    driver = setup_driver(request.param)
+
+    driver.get(urls.LOGIN_PAGE)
+    WebDriverWait(driver, 10).until(expected_conditions.url_to_be(urls.LOGIN_PAGE))
+    email_field = driver.find_element(*locators.login_page.EMAIL_FIELD)
+    email_field.send_keys(user_data["email"])
+    pass_field = driver.find_element(*locators.login_page.PASS_FIELD)
+    pass_field.send_keys(user_data["password"])
+    enter_button = driver.find_element(*locators.login_page.ENTER_BUTTON)
+    WebDriverWait(driver, 120).until(expected_conditions.element_to_be_clickable(locators.login_page.ENTER_BUTTON))
+    enter_button.click()
+    WebDriverWait(driver, 3).until(expected_conditions.url_to_be(urls.MAIN_PAGE))
+    yield driver
+    headers = {"Authorization": access_token}
+    response_delete = requests.delete(f"{api.MAIN_URL}{api.DELETE_USER}", headers=headers)
     driver.quit()

@@ -5,8 +5,6 @@ from pages.reset_password_page import ResetPasswordPage
 
 import urls
 
-from time import sleep
-
 
 class TestPasswordRecoveryPage:
     def test_open_password_recovery_page_by_click_password_recovery_href(self, page_driver):
