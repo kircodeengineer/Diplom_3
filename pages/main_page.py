@@ -2,6 +2,7 @@ from pages.base_page import BasePage
 from locators.main_page import *
 import urls
 
+
 class MainPage(BasePage):
     def open(self):
         self._open_page(urls.MAIN_PAGE)

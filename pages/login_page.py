@@ -5,6 +5,7 @@ from pages.base_page import BasePage
 from locators.login_page import RECOVER_PASS_HREF
 import urls
 
+
 class LoginPage(BasePage):
     def open(self):
         self._open_page(urls.LOGIN_PAGE)

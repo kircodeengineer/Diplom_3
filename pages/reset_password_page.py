@@ -7,8 +7,6 @@ from pages.base_page import BasePage
 import urls
 
 
-
-
 class ResetPasswordPage(BasePage):
     def open(self):
         self._open_page(urls.RESET_PASSWORD_PAGE)
