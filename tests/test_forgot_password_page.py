@@ -1,12 +1,14 @@
+import allure
 from faker import Faker
+
 from pages.login_page import LoginPage
 from pages.forgot_password_page import ForgotPasswordPage
 from pages.reset_password_page import ResetPasswordPage
-
 import urls
 
 
 class TestPasswordRecoveryPage:
+    @allure.title('Переход на страницу восстановления пароля по кнопке Восстановить пароль')
     def test_open_password_recovery_page_by_click_password_recovery_href(self, page_driver):
         login_page = LoginPage(page_driver)
         login_page.open()
@@ -14,6 +16,7 @@ class TestPasswordRecoveryPage:
         current_url = page_driver.current_url
         assert current_url == urls.FORGOT_PASSWORD_PAGE
 
+    @allure.title('Ввод почты и клик по кнопке Восстановить')
     def test_enter_email_and_click_recovery_button_success(self, page_driver):
         forgot_password_page = ForgotPasswordPage(page_driver)
         forgot_password_page.open()
@@ -23,6 +26,7 @@ class TestPasswordRecoveryPage:
         current_url = page_driver.current_url
         assert current_url == urls.RESET_PASSWORD_PAGE
 
+    @allure.title('Клик по кнопке показать/скрыть пароль делает поле активным — подсвечивает его')
     def test_make_password_field_active(self, page_driver):
         forgot_password_page = ForgotPasswordPage(page_driver)
         forgot_password_page.open()

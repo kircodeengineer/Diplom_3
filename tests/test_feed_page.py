@@ -1,3 +1,4 @@
+import allure
 import pytest
 
 from pages.main_page import  MainPage
@@ -6,7 +7,9 @@ from pages.account_profile_page import AccountProfilePage
 from pages.account_order_history import AccountOrderHistoryPage
 from locators.feed_page import *
 
+
 class TestFeedPage:
+    @allure.title('Если кликнуть на заказ, откроется всплывающее окно с деталями')
     def test_pop_up_order_details_window_by_click_order_in_list(self, page_driver):
         main_page = MainPage(page_driver)
         main_page.open()
@@ -15,6 +18,7 @@ class TestFeedPage:
         feed_page.click_order()
         assert feed_page.is_order_details_window_popped_up()
 
+    @allure.title('Заказы пользователя из раздела История заказов отображаются на странице Лента заказов')
     def test_order_exist_in_user_order_history_and_in_order_in_list(self, logged_in_main_page_driver):
         main_page = MainPage(logged_in_main_page_driver)
         main_page.open()
@@ -33,6 +37,7 @@ class TestFeedPage:
         assert is_order_number_found_in_user_order_history
         assert is_order_number_found_in_feed
 
+    @allure.title('При создании нового заказа счётчик Выполнено за всё время и Выполнено за сегодня увеличиваются')
     @pytest.mark.parametrize('counter_locator', [TOTAL_ORDER_COUNTER, DAILY_ORDER_COUNTER])
     def test_orders_counter_increase(self, logged_in_main_page_driver, counter_locator):
         feed_page = FeedPage(logged_in_main_page_driver)
@@ -42,15 +47,18 @@ class TestFeedPage:
         main_page.open()
         main_page.add_buns_to_order()
         main_page.click_make_order_button()
+        main_page.get_order_number()
         feed_page.open()
         current_counter_value = feed_page.get_counter_by_locator(counter_locator)
         assert current_counter_value > prev_counter_value
 
+    @allure.title('После оформления заказа его номер появляется в разделе В работе')
     def test_order_number_in_work(self, logged_in_main_page_driver):
         main_page = MainPage(logged_in_main_page_driver)
         main_page.open()
         main_page.add_buns_to_order()
         main_page.click_make_order_button()
+        main_page.get_order_number()
         order_number = int(main_page.get_order_number())
         feed_page = FeedPage(logged_in_main_page_driver)
         feed_page.open()

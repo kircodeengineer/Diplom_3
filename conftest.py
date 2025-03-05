@@ -16,8 +16,7 @@ def setup_driver(browser):
     elif browser == 'firefox':
         return webdriver.Firefox()
 
-#@pytest.fixture(params=['chrome', 'firefox'])
-@pytest.fixture(params=['chrome'])
+@pytest.fixture(params=['chrome', 'firefox'])
 def page_driver(request):
     driver = setup_driver(request.param)
     yield driver
@@ -30,10 +29,9 @@ def register_user(user_data):
 
 def delete_user(access_token):
     headers = {"Authorization": access_token}
-    response_delete = requests.delete(f"{api.MAIN_URL}{api.DELETE_USER}", headers=headers)
+    requests.delete(f"{api.MAIN_URL}{api.DELETE_USER}", headers=headers)
 
-#@pytest.fixture(params=['chrome', 'firefox'])
-@pytest.fixture(params=['chrome'])
+@pytest.fixture(params=['chrome', 'firefox'])
 def logged_in_main_page_driver(request):
     faker = Faker()
     status_code = 0
