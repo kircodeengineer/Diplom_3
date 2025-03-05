@@ -21,8 +21,6 @@ class BasePage:
         element.send_keys(keys)
 
     def _is_element_exist_by_locator(self, locator):
-        try:
-            self.driver.find_element(*locator)
-        except NoSuchElementException:
-            return False
-        return True
+        WebDriverWait(self.driver, 10).until(expected_conditions.presence_of_element_located(locator))
+        element = self.driver.find_element(*locator)
+        return element.is_displayed()

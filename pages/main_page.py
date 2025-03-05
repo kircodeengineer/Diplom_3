@@ -24,3 +24,7 @@ class MainPage(BasePage):
 
     def is_ingredient_window_popped_up(self):
         return self._is_element_exist_by_locator(INGREDIENT_DETAILS_POPUP)
+
+    def click_close_button(self):
+        self._click_locator(CLOSE_BUTTON)
+        WebDriverWait(self.driver, 5).until(expected_conditions.invisibility_of_element_located(INGREDIENT_DETAILS_POPUP))

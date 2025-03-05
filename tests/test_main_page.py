@@ -17,8 +17,15 @@ class TestMainPage:
         current_url = page_driver.current_url
         assert current_url == urls.FEED_PAGE
 
-    def test_popup_ingredient_window_by_ingredient_click(self, page_driver):
+    def test_pop_up_ingredient_window_by_ingredient_click(self, page_driver):
         main_page = MainPage(page_driver)
         main_page.open()
         main_page.click_on_ingredient()
         assert main_page.is_ingredient_window_popped_up()
+
+    def test_close_popped_up_ingredient_window_by_button_click(self, page_driver):
+        main_page = MainPage(page_driver)
+        main_page.open()
+        main_page.click_on_ingredient()
+        main_page.click_close_button()
+        assert not main_page.is_ingredient_window_popped_up()

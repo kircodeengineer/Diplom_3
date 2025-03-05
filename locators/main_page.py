@@ -5,3 +5,4 @@ PERSONAL_ACCOUNT_HREF = (By.XPATH,".//p[@class='AppHeader_header__linkText__3q_v
 ORDERS_LIST_BUTTON = (By.XPATH, ".//p[text()='Лента Заказов']")
 BUNS_INGREDIENT = (By.XPATH, '//p[text()="Флюоресцентная булка R2-D3"]')
 INGREDIENT_DETAILS_POPUP = (By.XPATH, '//h2[text()="Детали ингредиента"]')
+CLOSE_BUTTON = (By.XPATH, './/button[contains(@class,"close")]')
