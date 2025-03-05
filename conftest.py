@@ -1,3 +1,4 @@
+import allure
 import pytest
 from faker import Faker
 from selenium import webdriver
@@ -9,28 +10,31 @@ import urls
 import locators.login_page
 import api
 
-
+@allure.step('Настройка драйвера браузера {browser}')
 def setup_driver(browser):
     if browser == 'chrome':
         return webdriver.Chrome()
     elif browser == 'firefox':
         return webdriver.Firefox()
 
+@allure.step('Настройка драйвера браузера без регистрации пользователя {request}')
 @pytest.fixture(params=['chrome', 'firefox'])
 def page_driver(request):
     driver = setup_driver(request.param)
     yield driver
     driver.quit()
 
-
+@allure.step('Регистрация пользователя с данными {user_data}')
 def register_user(user_data):
     response = requests.post(f"{api.MAIN_URL}{api.CREATE_USER}", json=user_data)
     return response
 
+@allure.step('Удаление пользователя с токеном {access_token}')
 def delete_user(access_token):
     headers = {"Authorization": access_token}
     requests.delete(f"{api.MAIN_URL}{api.DELETE_USER}", headers=headers)
 
+@allure.step('Настройка драйвера браузера с регистрацией пользователя {request}')
 @pytest.fixture(params=['chrome', 'firefox'])
 def logged_in_main_page_driver(request):
     faker = Faker()
