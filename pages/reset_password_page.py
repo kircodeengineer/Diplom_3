@@ -16,8 +16,4 @@ class ResetPasswordPage(BasePage):
         WebDriverWait(self.driver, 3).until(expected_conditions.presence_of_element_located(FIELD_PASSWORD_ACTIVE))
 
     def is_field_password_active(self):
-        try:
-            self.driver.find_element(*FIELD_PASSWORD_ACTIVE)
-        except NoSuchElementException:
-            return False
-        return True
+        return self._is_element_exist_by_locator(FIELD_PASSWORD_ACTIVE)

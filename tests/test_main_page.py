@@ -17,7 +17,8 @@ class TestMainPage:
         current_url = page_driver.current_url
         assert current_url == urls.FEED_PAGE
 
-    def test_popup_window_of_ingredient_by_ingredient_click(self, pages):
-        pages.click_on_ingredient()
-        actually_text = pages.check_show_window_with_details()
-        assert actually_text == "Детали ингредиента"
+    def test_popup_ingredient_window_by_ingredient_click(self, page_driver):
+        main_page = MainPage(page_driver)
+        main_page.open()
+        main_page.click_on_ingredient()
+        assert main_page.is_ingredient_window_popped_up()

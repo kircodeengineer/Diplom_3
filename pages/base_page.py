@@ -1,5 +1,6 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
+from selenium.common.exceptions import NoSuchElementException
 
 
 class BasePage:
@@ -18,3 +19,10 @@ class BasePage:
     def _send_keys_by_locator(self, locator, keys):
         element = self.driver.find_element(*locator)
         element.send_keys(keys)
+
+    def _is_element_exist_by_locator(self, locator):
+        try:
+            self.driver.find_element(*locator)
+        except NoSuchElementException:
+            return False
+        return True
