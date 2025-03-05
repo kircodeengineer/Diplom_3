@@ -7,7 +7,7 @@ class TestAccountProfilePage:
         main_page = MainPage(logged_in_main_page_driver)
         main_page.click_personal_account_href()
         current_url = logged_in_main_page_driver.current_url
-        assert current_url == urls.ACCOUNT_PAGE
+        assert current_url == urls.ACCOUNT_PROFILE_PAGE
 
     def test_go_to_order_history_page_from_account_profile_page_by_button_click(self, logged_in_main_page_driver):
         main_page = MainPage(logged_in_main_page_driver)

@@ -51,9 +51,9 @@ def logged_in_main_page_driver(request):
         pass_field = driver.find_element(*locators.login_page.PASS_FIELD)
         pass_field.send_keys(user_data["password"])
         enter_button = driver.find_element(*locators.login_page.ENTER_BUTTON)
-        WebDriverWait(driver, 120).until(expected_conditions.element_to_be_clickable(locators.login_page.ENTER_BUTTON))
+        WebDriverWait(driver, 10).until(expected_conditions.element_to_be_clickable(locators.login_page.ENTER_BUTTON))
         enter_button.click()
-        WebDriverWait(driver, 3).until(expected_conditions.url_to_be(urls.MAIN_PAGE))
+        WebDriverWait(driver, 10).until(expected_conditions.url_to_be(urls.MAIN_PAGE))
         yield driver
     except Exception as e:
         delete_user(access_token)
