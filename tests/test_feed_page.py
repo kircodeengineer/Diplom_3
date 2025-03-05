@@ -45,3 +45,14 @@ class TestFeedPage:
         feed_page.open()
         current_counter_value = feed_page.get_counter_by_locator(counter_locator)
         assert current_counter_value > prev_counter_value
+
+    def test_order_number_in_work(self, logged_in_main_page_driver):
+        main_page = MainPage(logged_in_main_page_driver)
+        main_page.open()
+        main_page.add_buns_to_order()
+        main_page.click_make_order_button()
+        order_number = int(main_page.get_order_number())
+        feed_page = FeedPage(logged_in_main_page_driver)
+        feed_page.open()
+        order_in_progress = int(feed_page.get_order_number_in_progress())
+        assert order_number == order_in_progress

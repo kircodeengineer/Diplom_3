@@ -48,8 +48,8 @@ class MainPage(BasePage):
         return self._is_element_exist_by_locator(ORDER_DETAILS_POPUP)
 
     def get_order_number(self):
-        WebDriverWait(self.driver, 15).until_not(expected_conditions.text_to_be_present_in_element(ORDER_ID, '9999' ))
-        return self._get_text_by_locator(ORDER_ID)
+        WebDriverWait(self.driver, 15).until_not(expected_conditions.text_to_be_present_in_element(ORDER_NUMBER, '9999'))
+        return self._get_text_by_locator(ORDER_NUMBER)
 
     def close_order_popped_up_window(self):
         self._click_locator(CLOSE_ORDER_POPPED_UP_WINDOW_BUTTON)

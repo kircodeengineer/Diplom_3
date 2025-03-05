@@ -26,3 +26,7 @@ class FeedPage(BasePage):
     def get_counter_by_locator(self, locator):
         WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_element_located(locator))
         return int(self._get_text_by_locator(locator))
+
+    def get_order_number_in_progress(self):
+        WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_element_located(ORDER_NUMBER_IN_PROGRESS))
+        return self._get_text_by_locator(ORDER_NUMBER_IN_PROGRESS)
