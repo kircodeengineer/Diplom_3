@@ -1,5 +1,6 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
+from selenium.webdriver import ActionChains
 
 from pages.base_page import BasePage
 from locators.main_page import *
@@ -28,3 +29,13 @@ class MainPage(BasePage):
     def click_close_button(self):
         self._click_locator(CLOSE_BUTTON)
         WebDriverWait(self.driver, 5).until(expected_conditions.invisibility_of_element_located(INGREDIENT_DETAILS_POPUP))
+
+    def get_count_value(self):
+        return self._get_text_by_locator(INGREDIENT_COUNTER)
+
+    def add_buns_to_order(self):
+        WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(BUNS_INGREDIENT))
+        buns = self.driver.find_element(*BUNS_INGREDIENT)
+        order = self.driver.find_element(*ORDER)
+        action_chains = ActionChains(self.driver)
+        action_chains.drag_and_drop(buns, order).perform()

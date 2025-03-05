@@ -24,3 +24,7 @@ class BasePage:
         WebDriverWait(self.driver, 10).until(expected_conditions.presence_of_element_located(locator))
         element = self.driver.find_element(*locator)
         return element.is_displayed()
+
+    def _get_text_by_locator(self, locator):
+        element = self.driver.find_element(*locator)
+        return element.text

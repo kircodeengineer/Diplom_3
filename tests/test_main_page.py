@@ -2,6 +2,8 @@ from pages.main_page import MainPage
 from pages.forgot_password_page import ForgotPasswordPage
 import urls
 
+import time
+
 class TestMainPage:
     def test_go_to_main_page_from_forgot_password_page_by_button_click(self, page_driver):
         forgot_password_page = ForgotPasswordPage(page_driver)
@@ -29,3 +31,11 @@ class TestMainPage:
         main_page.click_on_ingredient()
         main_page.click_close_button()
         assert not main_page.is_ingredient_window_popped_up()
+
+    def test_increase_ingredient_counter(self, page_driver):
+        main_page = MainPage(page_driver)
+        main_page.open()
+        prev_counter_value = main_page.get_count_value()
+        main_page.add_buns_to_order()
+        curr_counter_value = main_page.get_count_value()
+        assert curr_counter_value > prev_counter_value
