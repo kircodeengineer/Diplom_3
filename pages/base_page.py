@@ -9,10 +9,10 @@ class BasePage:
 
     def _open_page(self, url):
         self.driver.get(url)
-        WebDriverWait(self.driver, 3).until(expected_conditions.url_to_be(url))
+        WebDriverWait(self.driver, 15).until(expected_conditions.url_to_be(url))
 
     def _click_locator(self, locator):
-        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable(locator))
+        WebDriverWait(self.driver, 15).until(expected_conditions.element_to_be_clickable(locator))
         locator_to_click = self.driver.find_element(*locator)
         locator_to_click.click()
 
@@ -21,7 +21,7 @@ class BasePage:
         element.send_keys(keys)
 
     def _is_element_exist_by_locator(self, locator):
-        WebDriverWait(self.driver, 10).until(expected_conditions.presence_of_element_located(locator))
+        WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_element_located(locator))
         element = self.driver.find_element(*locator)
         return element.is_displayed()
 
