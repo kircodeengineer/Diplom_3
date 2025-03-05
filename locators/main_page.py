@@ -10,3 +10,5 @@ INGREDIENT_COUNTER = (By.XPATH, "(.//p[contains(@class, 'counter_counter__num__3
 ORDER = (By.XPATH, "//span[@class='constructor-element__text' and text()='Перетяните булочку сюда (верх)']")
 MAKE_ORDER_BUTTON = (By.XPATH, './/button[text()="Оформить заказ"]')
 ORDER_DETAILS_POPUP = (By.XPATH, ".//p[text()='идентификатор заказа']")
+ORDER_ID = (By.XPATH, ".//h2[contains(@class, 'Modal_modal__title_shadow__3ikwq Modal_modal__title__2L34m text text_type_digits-large mb-8')]")
+CLOSE_ORDER_POPPED_UP_WINDOW_BUTTON = (By.XPATH, "//button[contains(@class, 'Modal_modal__close')][1]")

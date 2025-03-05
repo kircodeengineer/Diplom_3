@@ -2,20 +2,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
 from pages.base_page import BasePage
-from locators.feed_page import *
-import urls
+from locators.account_order_history import *
 
-class FeedPage(BasePage):
-    def open(self):
-        self._open_page(urls.FEED_PAGE)
-
-    def click_order(self):
-        self._click_locator(TOP_ORDER_IN_LIST)
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(ORDER_STRUCTURE))
-
-    def is_order_details_window_popped_up(self):
-        return self._is_element_exist_by_locator(ORDER_STRUCTURE)
-
+class AccountOrderHistoryPage(BasePage):
     def is_order_number_found(self, order_number):
         elements = WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_all_elements_located(ORDERS))
         for element in elements:
