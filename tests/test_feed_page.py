@@ -34,7 +34,7 @@ class TestFeedPage:
         assert is_order_number_found_in_feed
 
     @pytest.mark.parametrize('counter_locator', [TOTAL_ORDER_COUNTER, DAILY_ORDER_COUNTER])
-    def test_today_orders_counter(self, logged_in_main_page_driver, counter_locator):
+    def test_orders_counter_increase(self, logged_in_main_page_driver, counter_locator):
         feed_page = FeedPage(logged_in_main_page_driver)
         feed_page.open()
         prev_counter_value = feed_page.get_counter_by_locator(counter_locator)
