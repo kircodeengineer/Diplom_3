@@ -29,7 +29,7 @@ def register_user(user_data):
     response = requests.post(f"{api.MAIN_URL}{api.CREATE_USER}", json=user_data)
     return response
 
-@allure.step('Удаление пользователя с токеном {access_token}')
+@allure.step('Удаление пользователя с токеном')
 def delete_user(access_token):
     headers = {"Authorization": access_token}
     requests.delete(f"{api.MAIN_URL}{api.DELETE_USER}", headers=headers)
