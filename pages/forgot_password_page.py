@@ -16,3 +16,7 @@ class ForgotPasswordPage(BasePage):
     def click_recovery_button(self):
         self._click_locator(RECOVERY_BUTTON)
         WebDriverWait(self.driver, 3).until(expected_conditions.url_to_be(urls.RESET_PASSWORD_PAGE))
+
+    def click_constructor_button(self):
+        self._click_locator(CONSTRUCTOR_BUTTON)
+        WebDriverWait(self.driver, 3).until(expected_conditions.url_to_be(urls.MAIN_PAGE))
