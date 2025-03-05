@@ -22,3 +22,7 @@ class FeedPage(BasePage):
             if order_number == element.text:
                 return True
         return True
+
+    def get_counter_by_locator(self, locator):
+        WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_element_located(locator))
+        return int(self._get_text_by_locator(locator))
