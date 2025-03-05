@@ -25,8 +25,8 @@ def page_driver(request):
 
 
 def register_user(user_data):
-    user_response = requests.post(f"{api.MAIN_URL}{api.CREATE_USER}", json=user_data)
-    return user_response.json().get("accessToken")
+    response = requests.post(f"{api.MAIN_URL}{api.CREATE_USER}", json=user_data)
+    return response
 
 def delete_user(access_token):
     headers = {"Authorization": access_token}
@@ -36,12 +36,18 @@ def delete_user(access_token):
 @pytest.fixture(params=['chrome'])
 def logged_in_main_page_driver(request):
     faker = Faker()
-    user_data = {
-        "email": faker.email(),
-        "password": faker.password(),
-        "name": faker.name()
-    }
-    access_token = register_user(user_data)
+    status_code = 0
+    user_data = None
+    access_token = None
+    while status_code != 200:
+        user_data = {
+            "email": faker.email(),
+            "password": faker.password(),
+            "name": faker.name()
+        }
+        response = register_user(user_data)
+        access_token = response.json().get("accessToken")
+        status_code = response.status_code
     try:
         driver = setup_driver(request.param)
         driver.get(urls.LOGIN_PAGE)

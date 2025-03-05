@@ -39,3 +39,10 @@ class TestMainPage:
         main_page.add_buns_to_order()
         curr_counter_value = main_page.get_count_value()
         assert curr_counter_value > prev_counter_value
+
+    def test_logged_in_user_can_make_order(self, logged_in_main_page_driver):
+        main_page = MainPage(logged_in_main_page_driver)
+        main_page.open()
+        main_page.add_buns_to_order()
+        main_page.click_make_order_button()
+        assert main_page.is_order_window_popped_up()

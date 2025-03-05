@@ -39,3 +39,10 @@ class MainPage(BasePage):
         order = self.driver.find_element(*ORDER)
         action_chains = ActionChains(self.driver)
         action_chains.drag_and_drop(buns, order).perform()
+
+    def click_make_order_button(self):
+        self._click_locator(MAKE_ORDER_BUTTON)
+        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(ORDER_DETAILS_POPUP))
+
+    def is_order_window_popped_up(self):
+        return self._is_element_exist_by_locator(ORDER_DETAILS_POPUP)
