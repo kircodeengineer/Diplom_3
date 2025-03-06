@@ -27,7 +27,7 @@ class FeedPage(BasePage):
         for element in elements:
             if order_number == element.text:
                 return True
-        return True
+        return False
 
     @allure.step('Получить счётчик по локатору {locator}')
     def get_counter_by_locator(self, locator):

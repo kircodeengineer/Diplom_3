@@ -13,4 +13,4 @@ class AccountOrderHistoryPage(BasePage):
         for element in elements:
             if order_number == element.text:
                 return True
-        return True
+        return False

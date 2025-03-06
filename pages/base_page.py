@@ -34,3 +34,7 @@ class BasePage:
     def _get_text_by_locator(self, locator):
         element = self.driver.find_element(*locator)
         return element.text
+
+    @allure.step('Ожидать загрузку страницы {url}')
+    def _wait_page_load(self, url):
+        WebDriverWait(self.driver, 15).until(expected_conditions.url_to_be(url))

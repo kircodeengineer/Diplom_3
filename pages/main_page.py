@@ -16,12 +16,12 @@ class MainPage(BasePage):
     @allure.step('Кликнуть по гиперссылке Личный кабинет')
     def click_personal_account_href(self):
         self._click_locator(PERSONAL_ACCOUNT_HREF)
-        WebDriverWait(self.driver, 15).until(expected_conditions.url_to_be(urls.ACCOUNT_PROFILE_PAGE))
+        self._wait_page_load(urls.ACCOUNT_PROFILE_PAGE)
 
     @allure.step('Кликнуть по кнопке Лента заказов')
     def click_orders_list_button(self):
         self._click_locator(ORDERS_LIST_BUTTON)
-        WebDriverWait(self.driver, 15).until(expected_conditions.url_to_be(urls.FEED_PAGE))
+        self._wait_page_load(urls.FEED_PAGE)
 
     @allure.step('Кликнуть по ингредиенту')
     def click_on_ingredient(self):

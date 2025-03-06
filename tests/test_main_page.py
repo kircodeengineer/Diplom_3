@@ -4,7 +4,6 @@ from pages.main_page import MainPage
 from pages.forgot_password_page import ForgotPasswordPage
 import urls
 
-import time
 class TestMainPage:
     @allure.title('Переход на Главную страницу по клику на кнопку Конструктор')
     def test_go_to_main_page_from_forgot_password_page_by_button_click(self, page_driver):
@@ -43,7 +42,6 @@ class TestMainPage:
         main_page.open()
         prev_counter_value = main_page.get_count_value()
         main_page.add_buns_to_order()
-        time.sleep(5)
         curr_counter_value = main_page.get_count_value()
         assert curr_counter_value > prev_counter_value
 
