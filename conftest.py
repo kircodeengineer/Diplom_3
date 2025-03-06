@@ -1,21 +1,12 @@
 import allure
 import pytest
 from faker import Faker
-from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions
 import requests
 
-import urls
-import locators.login_page
 import api
+from pages.login_page import LoginPage
+from setup_driver import setup_driver
 
-@allure.step('Настройка драйвера браузера {browser}')
-def setup_driver(browser):
-    if browser == 'chrome':
-        return webdriver.Chrome()
-    elif browser == 'firefox':
-        return webdriver.Firefox()
 
 @allure.step('Настройка драйвера браузера без регистрации пользователя {request}')
 @pytest.fixture(params=['chrome', 'firefox'])
@@ -38,33 +29,20 @@ def delete_user(access_token):
 @pytest.fixture(params=['chrome', 'firefox'])
 def logged_in_main_page_driver(request):
     faker = Faker()
-    status_code = 0
-    user_data = None
-    access_token = None
-    while status_code != 200:
-        user_data = {
-            "email": faker.email(),
-            "password": faker.password(),
-            "name": faker.name()
-        }
-        response = register_user(user_data)
-        access_token = response.json().get("accessToken")
-        status_code = response.status_code
-    try:
-        driver = setup_driver(request.param)
-        driver.get(urls.LOGIN_PAGE)
-        WebDriverWait(driver, 15).until(expected_conditions.url_to_be(urls.LOGIN_PAGE))
-        email_field = driver.find_element(*locators.login_page.EMAIL_FIELD)
-        email_field.send_keys(user_data["email"])
-        pass_field = driver.find_element(*locators.login_page.PASS_FIELD)
-        pass_field.send_keys(user_data["password"])
-        enter_button = driver.find_element(*locators.login_page.ENTER_BUTTON)
-        WebDriverWait(driver, 15).until(expected_conditions.element_to_be_clickable(locators.login_page.ENTER_BUTTON))
-        enter_button.click()
-        WebDriverWait(driver, 15).until(expected_conditions.url_to_be(urls.MAIN_PAGE))
-        yield driver
-    except Exception as e:
-        delete_user(access_token)
-        assert False, e
+    user_data = {
+        "email": faker.email(),
+        "password": faker.password(),
+        "name": faker.name()
+    }
+    response = register_user(user_data)
+    access_token = response.json().get("accessToken")
+    driver = setup_driver(request.param)
+
+    login_page = LoginPage(driver)
+    login_page.open()
+    login_page.enter_email_password(user_data["email"], user_data["password"])
+    login_page.click_enter_button()
+
+    yield driver
     delete_user(access_token)
     driver.quit()
