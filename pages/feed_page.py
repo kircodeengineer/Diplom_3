@@ -1,6 +1,4 @@
 import allure
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions
 
 from pages.base_page import BasePage
 from locators.feed_page import *
@@ -15,7 +13,7 @@ class FeedPage(BasePage):
     @allure.step('Клик по верхнему заказу Ленты заказов')
     def click_order(self):
         self._click_locator(TOP_ORDER_IN_LIST)
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(ORDER_STRUCTURE))
+        self._wait_visibility_of_element_located(ORDER_STRUCTURE)
 
     @allure.step('Появилось ли всплывающее окно с деталями заказа')
     def is_order_details_window_popped_up(self):
@@ -23,7 +21,7 @@ class FeedPage(BasePage):
 
     @allure.step('Найден ли номер заказа {order_number}')
     def is_order_number_found(self, order_number):
-        elements = WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_all_elements_located(ORDERS))
+        elements = self._wait_presence_of_all_elements_located(ORDERS)
         for element in elements:
             if order_number in element.text:
                 return True
@@ -31,10 +29,10 @@ class FeedPage(BasePage):
 
     @allure.step('Получить счётчик по локатору {locator}')
     def get_counter_by_locator(self, locator):
-        WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_element_located(locator))
+        self._wait_presence_of_element_located(locator)
         return int(self._get_text_by_locator(locator))
 
     @allure.step('Получить номера заказа в работе')
     def get_order_number_in_progress(self):
-        WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_element_located(ORDER_NUMBER_IN_PROGRESS))
+        self._wait_presence_of_element_located(ORDER_NUMBER_IN_PROGRESS)
         return self._get_text_by_locator(ORDER_NUMBER_IN_PROGRESS)

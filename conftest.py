@@ -1,29 +1,16 @@
-import allure
 import pytest
 from faker import Faker
-import requests
 
-import api
 from pages.login_page import LoginPage
-from setup_driver import setup_driver
+from helpers import *
 from selenium.common.exceptions import ElementClickInterceptedException
 
 @allure.step('Настройка драйвера браузера без регистрации пользователя {request}')
-@pytest.fixture(params=['chrome', 'chrome'])
+@pytest.fixture(params=['chrome', 'firefox'])
 def page_driver(request):
     driver = setup_driver(request.param)
     yield driver
     driver.quit()
-
-@allure.step('Регистрация пользователя с данными {user_data}')
-def register_user(user_data):
-    response = requests.post(f"{api.MAIN_URL}{api.CREATE_USER}", json=user_data)
-    return response
-
-@allure.step('Удаление пользователя с токеном')
-def delete_user(access_token):
-    headers = {"Authorization": access_token}
-    requests.delete(f"{api.MAIN_URL}{api.DELETE_USER}", headers=headers)
 
 @allure.step('Настройка драйвера браузера с регистрацией пользователя {request}')
 @pytest.fixture(params=['chrome', 'firefox'])
