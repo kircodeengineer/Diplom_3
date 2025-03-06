@@ -11,6 +11,6 @@ class AccountOrderHistoryPage(BasePage):
     def is_order_number_found(self, order_number):
         elements = WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_all_elements_located(ORDERS))
         for element in elements:
-            if order_number == element.text:
+            if order_number in element.text:
                 return True
         return False
