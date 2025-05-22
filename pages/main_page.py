@@ -1,0 +1,62 @@
+import allure
+
+from pages.base_page import BasePage
+from locators.main_page import *
+import urls
+
+
+class MainPage(BasePage):
+    @allure.step('Открыть Главную страницу')
+    def open(self):
+        self._open_page(urls.MAIN_PAGE)
+
+    @allure.step('Кликнуть по гиперссылке Личный кабинет')
+    def click_personal_account_href(self):
+        self._click_locator(PERSONAL_ACCOUNT_HREF)
+        self._wait_page_load(urls.ACCOUNT_PROFILE_PAGE)
+
+    @allure.step('Кликнуть по кнопке Лента заказов')
+    def click_orders_list_button(self):
+        self._click_locator(ORDERS_LIST_BUTTON)
+        self._wait_page_load(urls.FEED_PAGE)
+
+    @allure.step('Кликнуть по ингредиенту')
+    def click_on_ingredient(self):
+        self._click_locator(BUNS_INGREDIENT)
+        self._wait_visibility_of_element_located(INGREDIENT_DETAILS_POPUP)
+
+    @allure.step('Присутствует ли ингредиент во всплывающем окне')
+    def is_ingredient_window_popped_up(self):
+        return self._is_element_exist_by_locator(INGREDIENT_DETAILS_POPUP)
+
+    @allure.step('Кликнуть по кнопке закрывающей всплывающее окно')
+    def click_close_button(self):
+        self._click_locator(CLOSE_BUTTON)
+        self._wait_invisibility_of_element_located(INGREDIENT_DETAILS_POPUP)
+
+    @allure.step('Получить число позиций добавленного ингредиента')
+    def get_count_value(self):
+        return self._get_text_by_locator(INGREDIENT_COUNTER)
+
+    @allure.step('Добавить булки в заказ')
+    def add_buns_to_order(self):
+        self._drag_and_drop(BUNS_INGREDIENT, ORDER)
+
+    @allure.step('Кликнуть по кнопку Оформить заказ')
+    def click_make_order_button(self):
+        self._click_locator(MAKE_ORDER_BUTTON)
+        self._wait_visibility_of_element_located(ORDER_DETAILS_POPUP)
+
+    @allure.step('Всплыло ли окно с деталями заказа')
+    def is_order_window_popped_up(self):
+        return self._is_element_exist_by_locator(ORDER_DETAILS_POPUP)
+
+    @allure.step('Получить номер заказа')
+    def get_order_number(self):
+        self._wait_text_not_to_be_present_in_element(ORDER_NUMBER, '9999')
+        return self._get_text_by_locator(ORDER_NUMBER)
+
+    @allure.step('Закрыть всплывающее окно')
+    def close_order_popped_up_window(self):
+        self._click_locator(CLOSE_ORDER_POPPED_UP_WINDOW_BUTTON)
+        self._wait_invisibility_of_element_located(ORDER_DETAILS_POPUP)
